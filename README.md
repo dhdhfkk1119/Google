@@ -12,6 +12,16 @@
 ### 개발 프로그램 : Vscode , xampp
 ##
 
+## 내부 기능 
+-
+- 로그인 , 회원 가입
+- 검색 기능
+- 장바구니 등록
+- 찜하기 기능
+- 마이 페이지 (사진 변경)
+- 구매 기능
+- 장바구니에서 구매 기능
+  
 ## 메인 페이지 
 
 ![image](https://github.com/user-attachments/assets/6be2f36c-aef6-43cc-b53c-41dcb33a37ef)
