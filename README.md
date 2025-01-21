@@ -61,9 +61,7 @@
 
 ## 관리자 영상
 
-
-https://github.com/user-attachments/assets/4808d425-9dc1-4281-876e-97c005fcbbff
-
+![2025-01-21234202-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/e5760eaf-eb5a-4694-8b3b-c0ffe4a5321e)
 
 
 ### 그 외 적인 기능 
