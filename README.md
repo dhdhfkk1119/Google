@@ -33,9 +33,13 @@
 
 ![image](https://github.com/user-attachments/assets/0f3b6be0-8262-4e9e-8ee0-5b8f88b5539a)
 
-## 마이페이지
+## 일반 고객 마이페이지
 
-![image](https://github.com/user-attachments/assets/b7011382-f94d-4cc1-97d9-42a4c7b5446c)
+![image](https://github.com/user-attachments/assets/a77dd612-9629-4c86-b677-66ad36dc34ea)
+
+## 관리자 마이페이지
+
+![image](https://github.com/user-attachments/assets/18664d9f-33c3-42ec-8872-a2829a02738e)
 
 ## 상품등록
 
@@ -51,10 +55,15 @@
 
 ## 장바구니 
 
-![image](https://github.com/user-attachments/assets/b9a26d70-8fc4-4b62-bb11-a072d8728b0e)
+![image](https://github.com/user-attachments/assets/aca6706e-2b0e-4897-9ac0-7d35a8368ac0)
 
-그 외 적인 기능 
-좋아요 기능 , 상품 등록 삭제 수정 , 장바구니 에서 구매 쇼핑몰에서 할 수 있는 대부분에 기능을 구현했습니다. 
-html,css는 기존에 있던 사이트 플랫폼을 가지고 와서 사용했습니다.
+## 일반 고객 영상
+
+## 관리자 영상
+
+
+### 그 외 적인 기능 
+### 좋아요 기능 , 상품 등록 삭제 , 장바구니 에서 구매 쇼핑몰에서 할 수 있는 대부분에 기능을 구현했습니다. 
+### html,css는 기존에 있던 사이트 플랫폼을 가지고 와서 사용했습니다.
 
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=40&section=footer&text=&fontSize=0" width="100%"/>
