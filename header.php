@@ -58,7 +58,7 @@
                             <a href="cart.php" class="nav-item nav-link" id="cart">Cart</a>
                         </div>
                         <?php
-                            $userid = $_SESSION['id'];
+                            $userid = isset($_SESSION['id']) ? $_SESSION['id'] : null;
                             $sql = "SELECT * FROM cart WHERE logid = '$userid'";
                             $row = mysqli_query($connect, $sql);
                             $count = mysqli_num_rows($row); // 갯수를 계산                            

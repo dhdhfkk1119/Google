@@ -5,7 +5,8 @@ $itemidx = $_POST['itemidx'];
 $userid = $_POST['userid'];
 $pname = $_POST['pname'];
 $categori = $_POST['categori'];
-$price = $_POST['total_price'];
+$cprice = $_POST['cprice'];
+$total_price = $_POST['total_price'];
 $ea = $_POST['pop_out'];
 $color = $_POST['color'];
 $img = $_POST['img'];
@@ -46,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo '이미 장바구니에 있는 상품입니다.';
         } else {
             // 장바구니에 상품 추가
-            $sql = "INSERT INTO cart(cuserid, cname, cprice, ccolor, ccategori, ceach, img, logid, itemidx) 
-                    VALUES ('$userid', '$pname', '$price', '$color', '$categori', '$ea', '$img', '$logid', '$itemidx')";
+            $sql = "INSERT INTO cart(cuserid, cname, cprice, ccolor, ccategori, ceach, img, logid, itemidx, total_price) 
+                    VALUES ('$userid', '$pname', '$cprice', '$color', '$categori', '$ea', '$img', '$logid', '$itemidx','$total_price')";
             if ($connect->query($sql)) {
                 echo '장바구니에 담았습니다.';
             } else {
@@ -60,6 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES ('$userid', '$pname', '$price', '$color', '$categori', '$ea', '$img', '$logid', '$itemidx' ,'$buytime')";
         if ($connect->query($sql)) {
             echo '상품을 구매했습니다.';
+            mysqli_query($connect,$updateProductSql = "
+                UPDATE product 
+                SET 
+                    buyit = buyit + $ea, 
+                    ea = ea - $ea 
+                WHERE 
+                    idx = '$itemidx'
+            ");
         } else {
             echo '구매 처리 중 오류가 발생했습니다.';
         }

@@ -11,8 +11,15 @@
             $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
             $items_per_page = 9;
             $start = ($page - 1) * $items_per_page;
+            $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
 
-            $sql = "SELECT * FROM product";
+            $sql = "SELECT * FROM product 1=1";
+
+            if(!empty($keywords)){
+                $keywords = mysqli_real_escape_string($connect,$keywords); 
+                $sql .= " AND (pname LIKE '%$keywords%' OR content LIKE '%$keywords%' OR categori LIKE '%$keywords%')";
+            }
+
             if ($categori != '') {
                 $sql .= " WHERE categori = '$categori'";
             }
@@ -20,15 +27,19 @@
             if ($sort == 'latest') {
                 $sql .= " ORDER BY datetime DESC";
             } elseif ($sort == 'popular') {
-                $sql .= " ORDER BY views DESC";
+                $sql .= " ORDER BY is_like DESC";
             } elseif ($sort == 'sales') {
-                $sql .= " ORDER BY sales DESC";
+                $sql .= " ORDER BY buyit DESC";
             }
 
             $sql .= " LIMIT $start, $items_per_page";
             $result = mysqli_query($connect, $sql);
 
-            $total_items_sql = "SELECT COUNT(*) FROM product";
+            $total_items_sql = "SELECT COUNT(*) FROM product WHERE 1=1";
+            if (!empty($keywords)) {
+                $total_items_sql .= " AND (pname LIKE '%$keywords%' OR content LIKE '%$keywords%' OR categori LIKE '%$keywords%')";
+            }
+
             if ($categori != '') {
                 $total_items_sql .= " WHERE categori = '$categori'";
             }
@@ -44,7 +55,6 @@
         <?php include "./header.php" ?>
         <!-- Navbar End -->
 
-
         <!-- Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen">
@@ -55,8 +65,12 @@
                     </div>
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                            <form method="GET" action="shop.php" class="d-flex w-75">
+                                <input type="search" class="form-control p-3" name="keywords" placeholder="keywords">
+                                <button type="submit" class="btn btn-primary px-3">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -96,9 +110,9 @@
                                 <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                                     <label for="fruits">Default Sorting:</label>
                                     <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" onchange="location = this.value;">
-                                        <option value="shop.php?sort=latest&categori=<?=$categori;?>">최신순</option>
-                                        <option value="shop.php?sort=popular&categori=<?=$categori;?>">인기순</option>
-                                        <option value="shop.php?sort=sales&categori=<?=$categori;?>">판매순</option>
+                                        <option value="shop.php?sort=latest&categori=<?=$categori;?>" <?= $sort == 'latest' ? 'selected' : ''; ?>>최신순</option>
+                                        <option value="shop.php?sort=popular&categori=<?=$categori;?>" <?= $sort == 'popular' ? 'selected' : ''; ?>>인기순</option>
+                                        <option value="shop.php?sort=sales&categori=<?=$categori;?>" <?= $sort == 'sales' ? 'selected' : ''; ?>>판매순</option>
                                     </select>
                                 </div>
                             </div>
@@ -170,7 +184,7 @@
                                             $first_image = $images[0];
                                     ?>
                                     <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <a href="detail.php?idx=<?=$row['idx']; ?>">
+                                        <a href="detail.php?idx=<?=$row['idx']; ?>" onclick="increaseView(<?=$row['idx']; ?>);">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img src="product/<?=$first_image; ?>" class="img-fluid w-100 rounded-top" alt="<?=$row['pname']; ?>">
@@ -195,11 +209,13 @@
                                     <!-- 페이지네이션 -->                                    
                                     <div class="col-12">
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                            <a href="?page=1&sort=<?=$sort;?>&categori=<?=$categori;?>" class="rounded">&laquo;</a>
-                                            <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                                                <a href="?page=<?=$i;?>&sort=<?=$sort;?>&categori=<?=$categori;?>" class="rounded <?=$i == $page ? 'active' : '';?>"><?=$i;?></a>
-                                            <?php } ?>
-                                            <a href="?page=<?=$total_pages;?>&sort=<?=$sort;?>&categori=<?=$categori;?>" class="rounded">&raquo;</a>
+                                            <a href="?page=1&sort=<?= $sort; ?>&categori=<?= $categori; ?>&keywords=<?= $keywords; ?>" class="rounded">&laquo;</a>
+                                            <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                                                <a href="?page=<?= $i; ?>&sort=<?= $sort; ?>&categori=<?= $categori; ?>&keywords=<?= $keywords; ?>" class="rounded <?= $i == $page ? 'active' : ''; ?>">
+                                                    <?= $i; ?>
+                                                </a>
+                                            <?php endfor; ?>
+                                            <a href="?page=<?= $total_pages; ?>&sort=<?= $sort; ?>&categori=<?= $categori; ?>&keywords=<?= $keywords; ?>" class="rounded">&raquo;</a>
                                         </div>
                                     </div>
                                 </div>
@@ -318,7 +334,25 @@
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js">
+        // 클릭 이벤트: 상세 페이지로 이동하기 전에 조회수 증가
+        function increaseView(productId) {
+            $.ajax({
+                url: "../connect/product_view.php", // 조회수 증가 처리 파일
+                method: "POST",
+                data: { idx: productId },
+                success: function(response) {
+                    console.log("조회수 증가 완료:", response);
+                    // 상세 페이지로 이동
+                    window.location.href = `detail.php?idx=${productId}`;
+                },
+                error: function(error) {
+                    console.log("조회수 증가 실패:", error);
+                }
+            });
+        }
+    </script>
+    
     </body>
 
 </html>

@@ -20,7 +20,6 @@ if (isset($_GET['idx'])) {
     exit;
 }
 
-
 // 첫 번째 SQL 쿼리 실행
 $sql = "SELECT COUNT(idx) as count FROM item_like WHERE l_itemidx = '{$product['idx']}' AND l_user = '{$_SESSION['id']}'";
 $result = $connect->query($sql); 
@@ -240,6 +239,7 @@ if ($result && $result->num_rows > 0) {
                         <td class="product-1">가격 :</td>
                         <td>
                             <span class="total-price">0</span>원
+                            <input type="hidden" name="cprice" value="<?=$product['price'];?>">
                             <input type="hidden" name="total_price" value="0">
                         </td>
                     </tr>
@@ -372,6 +372,7 @@ if ($result && $result->num_rows > 0) {
             var userid = "<?= $product['userid']; ?>";
             var pname = "<?= $product['pname']; ?>";
             var categori = "<?= $product['categori']; ?>";
+            var cprice = "<?= $product['price']; ?>";
             var price = document.querySelector('input[name="total_price"]').value;
             var ea = document.querySelector('input[name="pop_out"]').value;
             var color = document.querySelector('select[name="color"]').value;
@@ -412,6 +413,7 @@ if ($result && $result->num_rows > 0) {
                 '&userid=' + encodeURIComponent(userid) +
                 '&pname=' + encodeURIComponent(pname) +
                 '&categori=' + encodeURIComponent(categori) +
+                '&cprice=' + encodeURIComponent(cprice) +
                 '&total_price=' + encodeURIComponent(price) +
                 '&pop_out=' + encodeURIComponent(ea) +
                 '&color=' + encodeURIComponent(color) +
