@@ -133,14 +133,18 @@
                         <p>구매 갯수</p>
                         <div><?= $buy_num_rows ?></div>
                     </div>
+                    <a href="cart.php">
                     <div>
                         <p>장바구니 갯수</p>
                         <div><?= $cart_count ?></div>
                     </div>
+                    </a>
+                    <a href="item_like_view.php">
                     <div>
                         <p>찜 갯수</p>
                         <div><?= $like_count ?></div>
                     </div>
+                    </a>
                     <div>
                         <p>배송완료</p>
                         <div>4</div>
@@ -177,6 +181,7 @@
                             <li><span class="buy_p">구매 색상 : </span><?=$row['bcolor']?></li>
                             <li><span class="buy_p">구매 날짜 : </span><?=$row['buytime']?></li>
                             <div class="additional-details" style="display:none;">
+                                <hr style="margin:5px 0 5px 0">
                                 <li><span class="buy_p">카테고리 : </span><?=$row['bcategori']?></li>
                                 <li><span class="buy_p">판매자 이름 : </span><?=$row['buserid']?></li>
                                 <li><span class="buy_p">상품 번호 : </span><?=$row['itemidx']?>번</li>
