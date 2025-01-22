@@ -59,6 +59,7 @@
     padding:15px;
     grid-template-columns: 1fr 1fr;
 }
+
 .up-list {
     grid-template-columns: 0.25fr 2.5fr 0.25fr;
 }

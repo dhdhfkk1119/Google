@@ -84,13 +84,14 @@
                                 if ($result['logid'] == $_SESSION['id']) {
                                     $has_products = true; // 상품이 있음을 표시
                                     $product_total = $result['cprice'] * $result['ceach'];
-                                    $subtotal = $product_total; // Subtotal 계산
+                                    $subtotal += $product_total; // Subtotal 계산
                                     ?>
                                     <!-- 상품이 있을 경우 출력 -->
                                     <tr>
                                         <td >
                                             <p class="mb-0 mt-4">
                                                 <input type="checkbox" id="itembox<?= $iteminputCnt + 1 ?>" name="itcheck" value="<?= $result['idx'] ?>">
+                                                <input type="hidden" name="total_price" value="<?=$product_total?>">
                                             </p>
                                         </td>
                                         <td >
@@ -101,7 +102,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-4"><?= $result['cname'] ?></p>
+                                            <a href="detail.php?idx=<?=$result['itemidx']; ?>"><p class="mb-0 mt-4"><?= $result['cname'] ?></p></a>
                                         </td>
                                         <td>
                                             <p class="mb-0 mt-4"><?= number_format($result['cprice']); ?>원</p>
@@ -117,11 +118,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="mb-0 mt-4 total-price" id="total-price-<?= $result['idx']; ?>"><?= number_format($product_total); ?>원</p>
+                                        <p class="mb-0 mt-4 total-price" id="total-price-<?= $result['idx']; ?>"><?= number_format($product_total); ?>원</p>
                                         </td>
-                                        <td>
-                                            <p class="mb-0 mt-4"><?= $result['ccolor']; ?></p>
-                                        </td>
+                                        <td ><p class="mb-0 mt-4"><?= $result['ccolor']; ?></p></td>
                                         <td>
                                             <form action="../connect/cart_delete.php" method="POST" onsubmit="return confirm('정말로 삭제하시겠습니까?')">
                                                 <input type="hidden" name="idx" value="<?= $result['idx'] ?>">
@@ -135,12 +134,13 @@
                                     $iteminputCnt++; // iteminputCnt 증가
                                 }
                             }
+
                             // 상품이 없을 경우 메시지 출력
                             if (!$has_products) {
                                 ?>
                                 <tr>
-                                    <td colspan="6" class="text-center">
-                                        <h1>장바구니에 등록된 상품이 없습니다.</h1>
+                                    <td colspan="12" class="text-center">
+                                        <h1 style="padding: 60px 0 60px 0">장바구니에 등록된 상품이 없습니다.</h1>
                                     </td>
                                 </tr>
                                 <?php
@@ -162,9 +162,10 @@
                             </div>
                             <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                                 <h5 class="mb-0 ps-4 me-4">Total</h5>
-                                <p class="mb-0 me-4 total-price2" data-price="<?= $subtotal ?>">0원</p>
+                                <p class="mb-0 me-4 total-price2" data-price="<?= $result['cprice']; ?>"><?= number_format($subtotal); ?>원</p>
                             </div>
-                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 productcell" type="button" onclick="cartbuyit()">Proceed Checkout</button>
+                            <button 
+                            class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 productcell" type="button" onclick="cartbuyit()">Proceed Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -327,13 +328,11 @@
                 const totalPriceElement = checkbox.closest("tr").querySelector(".total-price");
                 const itemTotal = parseInt(totalPriceElement.getAttribute("data-price")) || 0;
                 subtotal += itemTotal;
-
-                // 총합 표시 업데이트
-                const cartTotalPriceElement = document.querySelector(".total-price2");
-                cartTotalPriceElement.textContent = subtotal.toLocaleString() + "원"; // 숫자에 콤마 추가
             });
 
-
+            // 총합 표시 업데이트
+            const cartTotalPriceElement = document.querySelector(".total-price2");
+            cartTotalPriceElement.textContent = subtotal.toLocaleString() + "원"; // 숫자에 콤마 추가
         }
 
         // 숫자 포맷 함수
@@ -418,23 +417,36 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ action: 'checkout', items: checkedItems, total: subtotal }) // 선택된 상품과 총합 전송
+                    body: JSON.stringify({ items: checkedItems, total: subtotal })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text(); // JSON 대신 텍스트로 응답 처리
+                })
                 .then(data => {
-                    if (data.success) {
-                        alert("구매가 완료되었습니다.");
-                        location.reload();
-                    } else {
-                        alert("구매 처리에 실패했습니다. 다시 시도해주세요.");
+                    console.log('서버 응답:', data); // HTML 내용 출력
+                    try {
+                        const jsonData = JSON.parse(data); // JSON으로 파싱 시도
+                        if (jsonData.success) {
+                            alert("구매가 완료되었습니다.");
+                            location.reload();
+                        } else {
+                            alert(jsonData.message || "구매 처리에 실패했습니다.");
+                        }
+                    } catch (error) {
+                        console.error('JSON 파싱 에러:', error);
+                        alert("서버 응답에 문제가 있습니다. 관리자에게 문의하세요.");
                     }
                 })
-                .catch((error) => {
-                    console.error('Error:', error);
+                .catch(error => {
+                    console.error('Fetch 오류:', error);
                     alert("오류가 발생했습니다. 다시 시도해주세요.");
                 });
             }
         }
+
     </script>
     </body>
 

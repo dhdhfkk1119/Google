@@ -22,8 +22,12 @@
                     </div>
                     <div class="modal-body d-flex align-items-center">
                         <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                            <form action="shop.php" method="GET" class="d-flex w-100">
+                                <input type="search" name="keywords" class="form-control p-3" placeholder="keywords" aria-label="Search" required>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -39,9 +43,12 @@
                     <div class="col-md-12 col-lg-7">
                         <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
                         <h1 class="mb-5 display-3 text-primary">Organic Veggies & Fruits Foods</h1>
+                        <!-- 검색 기능 -->
                         <div class="position-relative mx-auto">
-                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
-                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+                            <form action="shop.php" method="GET">
+                                <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="text" name="keywords" placeholder="keywords">
+                                <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+                            </form>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-5">
@@ -165,6 +172,7 @@
                                 <p class="text-secondary mb-0">Fresh products</p>
                             </a>
                         </div>
+                        <!-- 검색 기능 -->
                         <div class="col-lg-6">
                             <div class="position-relative mx-auto">
                                 <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
@@ -274,19 +282,6 @@
                 return true;
             <?php endif; ?>
         }
-
-        $userId = $_SESSION['id'];
-        $sql = "SELECT COUNT(*) AS item_count FROM cart WHERE cuserid = '$userId'";
-        $result = mysqli_query($connect, $sql);
-
-        if ($result) {
-            $data = mysqli_fetch_assoc($result);
-            echo $data['item_count']; // JSON 대신 단순 숫자 반환
-        } else {
-            echo 0; // 오류 시 0 반환
-        }
-
-        // 필요 시 특정 이벤트(예: 상품 추가 시)에 실행
 
     </script>
     </body>

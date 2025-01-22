@@ -53,9 +53,9 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.php" class="nav-item nav-link" id="home">Home</a>
-                            <a href="shop.php" class="nav-item nav-link" id="shop">Shop</a>
-                            <a href="cart.php" class="nav-item nav-link" id="cart">Cart</a>
+                            <a href="index.php" class="nav-item nav-link menu-link" id="home">Home</a>
+                            <a href="shop.php" class="nav-item nav-link menu-link" id="shop">Shop</a>
+                            <a href="cart.php" class="nav-item nav-link menu-link" id="cart">Cart</a>
                         </div>
                         <?php
                             $userid = isset($_SESSION['id']) ? $_SESSION['id'] : null;
@@ -86,13 +86,26 @@
         <!-- Navbar End -->
 
 </body>
-<script src="http://code.jquery.com/jquery-3.5.1.min.js">
-    $("#menu").click(function () {
-        $("#menu").removeClass("active"); // 모든 버튼에서 active 클래스 제거
-        $(this).addClass("active");      // 클릭된 버튼에만 active 클래스 추가
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // 클릭 이벤트
+        $(".menu-link").on("click", function () {
+            // 모든 메뉴에서 active 제거
+            $(".menu-link").removeClass("active");
+
+            // 클릭된 메뉴에 active 추가
+            $(this).addClass("active");
+        });
+
+        // 현재 URL에 따라 active 클래스 추가
+        const currentPath = window.location.pathname.split("/").pop(); // 현재 경로의 파일명
+        $(".menu-link").each(function () {
+            const href = $(this).attr("href"); // 링크의 href 값
+            if (href === currentPath) {
+                $(this).addClass("active");
+            }
+        });
     });
-
-
-    
 </script>
 </php>

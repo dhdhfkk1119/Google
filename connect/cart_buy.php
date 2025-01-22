@@ -1,6 +1,5 @@
 <?php
     include('connect.php');
-    session_start();
 
     // JSON 요청 데이터 가져오기
     $data = json_decode(file_get_contents('php://input'), true);
@@ -19,7 +18,7 @@
     // 선택된 상품들에 대해서 처리
     foreach ($checkedItems as $itemidx) {
         // 카트에서 선택된 상품 정보 가져오기
-        $sql = "SELECT * FROM cart WHERE logid = '$userid' AND itemidx = '$itemidx'";
+        $sql = "SELECT * FROM cart WHERE logid = '$userid' AND idx = '$itemidx'";
         $result = mysqli_query($connect, $sql);
 
         if (mysqli_num_rows($result) > 0) {
@@ -35,10 +34,11 @@
                 $logid = $row['logid']; // 구매자 ID (사용자)
                 $itemidx = $row['itemidx'];
                 $buytime = date("Y-m-d H:i:s");
+                $total_price = $row['total_price'];
 
                 // 'buy' 테이블에 구매 기록 추가
-                $insertSql = "INSERT INTO buy (buserid, bname, bprice, bcolor, bcategori, beach, img, logid, itemidx, buytime) 
-                            VALUES ('$buserid', '$bname', '$bprice', '$bcolor', '$bcategori', '$beach', '$img', '$logid', '$itemidx', '$buytime')";
+                $insertSql = "INSERT INTO buy (buserid, bname, bprice, bcolor, bcategori, beach, img, logid, itemidx, buytime ,total_price) 
+                            VALUES ('$buserid', '$bname', '$bprice', '$bcolor', '$bcategori', '$beach', '$img', '$logid', '$itemidx', '$buytime' ,'$total_price')";
                 mysqli_query($connect, $insertSql);
 
                 // 상품 수량 업데이트 (구매한 수량만큼 감소)
@@ -51,6 +51,7 @@
             // 카트에서 해당 아이템 삭제
             $deleteSql = "DELETE FROM cart WHERE logid = '$userid' AND itemidx = '$itemidx'";
             mysqli_query($connect, $deleteSql);
+            
         }
     }
 

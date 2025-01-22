@@ -21,7 +21,7 @@ if ($_FILES['profile']['error'] == UPLOAD_ERR_OK) {
         $sql = "UPDATE sign SET profile = '$upload_file' WHERE id = '$id'";
         if ($connect->query($sql) === TRUE) {
             $_SESSION['profile'] = $upload_file;
-            header("Location: mypage.php");
+            header("Location: ../mypage.php");
             exit;
         } else {
             echo "데이터베이스에 저장하는 동안 오류가 발생했습니다.";

@@ -13,7 +13,7 @@
             $start = ($page - 1) * $items_per_page;
             $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
 
-            $sql = "SELECT * FROM product 1=1";
+            $sql = "SELECT * FROM product WHERE 1=1";
 
             if(!empty($keywords)){
                 $keywords = mysqli_real_escape_string($connect,$keywords); 
@@ -64,8 +64,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <form method="GET" action="shop.php" class="d-flex w-75">
+                        <div class="input-group w-100 mx-auto d-flex">
+                            <form method="GET" action="shop.php" class="d-flex w-100">
                                 <input type="search" class="form-control p-3" name="keywords" placeholder="keywords">
                                 <button type="submit" class="btn btn-primary px-3">
                                     <i class="fa fa-search"></i>
@@ -100,8 +100,12 @@
                         <div class="row g-4">
                             <div class="col-xl-3">
                                 <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                    <form method="GET" action="shop.php" class="d-flex w-100">
+                                        <input type="search" class="form-control p-3" name="keywords" placeholder="keywords" value="<?=$keywords?>">
+                                        <button type="submit" class="btn btn-primary px-3">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="col-6"></div>
@@ -126,11 +130,11 @@
                                         <h4>Categories</h4>
                                         <ul class="list-unstyled fruite-categorie">
                                             <?php 
-                                            // 전체 상품 가져오기 
-                                            $total_sql = "SELECT COUNT(*) as total_count FROM product";
-                                            $total_result = mysqli_query($connect,$total_sql);
-                                            $total_row = mysqli_fetch_assoc($total_result);
-                                            $total_count = $total_row['total_count'];
+                                                // 전체 상품 가져오기 
+                                                $total_sql = "SELECT COUNT(*) as total_count FROM product";
+                                                $total_result = mysqli_query($connect,$total_sql);
+                                                $total_row = mysqli_fetch_assoc($total_result);
+                                                $total_count = $total_row['total_count'];
                                             ?>
                                             <li>
                                                 <div class="d-flex justify-content-between fruite-name">
@@ -178,6 +182,7 @@
                                 <div class="row g-4 justify-content-center">
                                     <!-- 상품 리스트 이미지 반복 시작 -->
                                     <?php
+                                    if(mysqli_num_rows($result) > 0){
                                         while($row = mysqli_fetch_array($result)){
                                             $images = explode(',', $row['file']);
                                             // 배열의 첫 번째 이미지를 선택
@@ -202,6 +207,13 @@
                                         </a>
                                     </div>
                                     <?php 
+                                        }
+                                    }else {
+                                        ?>
+                                        <div class="col-12 col-12 text-center" style="padding-top:100px;">
+                                            <h1>"<span style="color:rgb(149, 206, 47);"><?=$keywords?></span>"에 대한 검색 결과가 없습니다.</h1>
+                                        </div>                                            
+                                        <?php
                                         }
                                     ?>
                                     <!-- 상품 이미지 반복 끝 -->

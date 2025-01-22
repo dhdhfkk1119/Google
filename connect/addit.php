@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($_POST['action'] == 'buy_now') {
         // 구매하기 처리
-        $sql = "INSERT INTO buy(buserid, bname, bprice, bcolor, bcategori, beach, img, logid, itemidx, buytime) 
-                VALUES ('$userid', '$pname', '$price', '$color', '$categori', '$ea', '$img', '$logid', '$itemidx' ,'$buytime')";
+        $sql = "INSERT INTO buy(buserid, bname, bprice, bcolor, bcategori, beach, img, logid, itemidx, buytime , total_price) 
+                VALUES ('$userid', '$pname', '$cprice', '$color', '$categori', '$ea', '$img', '$logid', '$itemidx' ,'$buytime' , '$total_price')";
         if ($connect->query($sql)) {
             echo '상품을 구매했습니다.';
             mysqli_query($connect,$updateProductSql = "
