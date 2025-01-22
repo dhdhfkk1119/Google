@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   =>  Template Name    : Fruitables - Vegetable Website Template
 
   =>  Template Link    : https://htmlcodex.com/vegetable-website-template
@@ -6,4 +7,14 @@
 
   =>  Template Author  : HTML Codex
 
+=======
+  =>  Template Name    : Fruitables - Vegetable Website Template
+
+  =>  Template Link    : https://htmlcodex.com/vegetable-website-template
+
+  =>  Template License : https://htmlcodex.com/license (or read the LICENSE.txt file)
+
+  =>  Template Author  : HTML Codex
+
+>>>>>>> 1efd9678224ab80abd03cba06f17a37042c2d95e
   =>  Author Website   : https://htmlcodex.com

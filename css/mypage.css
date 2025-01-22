@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .header {
     width: 100%;
     background-color: #81c408;
@@ -114,3 +115,120 @@
     color:white; border:0; 
     border-radius:4px; 
 }
+=======
+.header {
+    width: 100%;
+    background-color: #81c408;
+    height: 50px;
+    text-align: center;
+}
+.header-in h3 {
+    line-height: 50px;
+}
+.mypage {
+    margin: 220px auto 50px auto;
+    width: 1020px;
+}
+.mypage-in {
+    margin: 0 auto;
+    padding: 5px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; /* Add some space between the columns */
+    justify-content: center; /* Center the items horizontally */
+}
+.profile, .history {
+    border: 1px solid black;
+    width: 500px;
+}
+.profile {
+    display: grid;
+    padding:15px 0;
+    grid-template-columns: 1fr 1fr;
+}
+.profile-img {
+    height:202px;
+    border: 1px solid black;
+    border-radius: 136px;
+    margin: 0 auto ;
+    width: 190px;
+}
+.profile-info {
+    padding:15px 0;
+}
+.profile-info ul{
+    padding:0;
+    list-style:none;
+}
+.profile-info ul li {
+    padding-bottom:5px;
+}
+.buy {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.buy-in {
+    width: 1020px;
+    border: 1px solid black;
+}
+.buy-list {
+    display:grid;
+    padding:15px;
+    grid-template-columns: 1fr 1fr;
+}
+.up-list {
+    grid-template-columns: 0.25fr 2.5fr 0.25fr;
+}
+.up-list-ch2 ul{
+    text-align: center;
+    list-style: none;
+}
+.history-inner {
+    display:grid;
+    text-align:center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.profile input {
+    width: 175px;
+}
+.profileInput{
+    display:none; 
+    margin-bottom:15px; 
+    background-color: #81c408 !important;
+    color:white; border:0; 
+    border-radius:4px; 
+    width:100px;
+}
+.submitPro{
+    background-color: #81c408 !important;
+    color:white; 
+    padding: 10px 15px; 
+    border-radius: 4px;
+}
+.input-file {
+    background-color: #81c408 !important;
+    color:white;padding: 10px 15px;
+    border-radius: 4px;
+}
+/* 상품등록 삭제  */
+.delete-button {
+    background-color: #760c0c !important;
+    color:white; 
+    padding: 10px 15px; 
+    border-radius: 4px;
+    border:0;
+}
+.delete-button:hover {
+    background-color: red !important;
+    transition: 0.3s;
+}
+/* 프로필 이미지 등록시 나오는 버튼 */
+#submitBtn{
+    width: 115px; 
+    margin-bottom:15px; 
+    background-color: #81c408 !important;
+    color:white; border:0; 
+    border-radius:4px; 
+}
+>>>>>>> 1efd9678224ab80abd03cba06f17a37042c2d95e
