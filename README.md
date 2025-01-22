@@ -59,9 +59,19 @@
 
 ## 일반 고객 영상
 
+
+https://github.com/user-attachments/assets/07fbef7f-bae0-483f-8dff-6ae5c2c51acc
+
+
+https://github.com/user-attachments/assets/091d8fbf-fd38-4596-8c08-f1b7b73c620b
+
+
+
 ## 관리자 영상
 
-![2025-01-21234202-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/e5760eaf-eb5a-4694-8b3b-c0ffe4a5321e)
+
+https://github.com/user-attachments/assets/ef00d159-1e1f-4f8a-85c3-b962c02477f3
+
 
 
 ### 그 외 적인 기능 
